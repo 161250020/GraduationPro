@@ -19,7 +19,7 @@ def pg():
 
 @app.route('/p', methods=['post'])
 def p():
-    return render_template('index2.html')
+    return render_template('index2.html',test='123')
 
 if __name__ == '__main__':
     app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己
