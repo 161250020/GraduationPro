@@ -13,7 +13,7 @@ def pg():
         print("form-get-name:", name)
         return render_template('index.html')
     if request.method=='POST':
-        name = request.args.get("name")
+        name = request.form.get("name")
         print("form-post-name:", name)
         return render_template('index.html')
 
