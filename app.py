@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request
-
+from Personal.Relation import get_personal_realtionship
 # @app.route('/') # 路由
 # return render_template('index.html') # 把HTML文件读进来，再交给浏览器
 app = Flask(__name__) # 确定APP的启动路径
 
 @app.route('/')
 def Categories():
+
     return render_template('mainPage.html')
 
 @app.route('/g',methods=['GET','POST'])
@@ -25,7 +26,8 @@ def p():
 
 @app.route('/p_relation',methods=['get','post'])
 def p_relation():
-    return render_template('render.html')
+    get_personal_realtionship()
+    return render_template('personal_relationship.html')
 
 @app.route('/p_keywords',methods=['get','post'])
 def p_keywords():
