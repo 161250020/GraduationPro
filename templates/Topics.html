@@ -11,37 +11,26 @@
 </head>
 <body>
 
-<div class="container">
-    <h3>类别x的主题：</h3>
-    <h6>&nbsp;&nbsp;主题获取方式：使用LDA，选择perplexity（困惑度）最小的主题数进行分类。</h6><br>
+    <div class="container">
+        <h3>类别{{ c }}的主题：</h3>
+        <h6>&nbsp;&nbsp;主题获取方式：使用LDA，选择perplexity（困惑度）最小的主题数进行分类。</h6><br>
 
-    <div class="card bg-secondary text-white">
-        <div class="card-header">
-            <h5>主题1：</h5>
-        </div>
-        <div class="card-body">
-            <h6>主题关键词：xxx,xxx</h6>
-        </div>
-    </div><br>
+        {% for topic in value %}
+            <div class="card bg-secondary text-white">
+                <div class="card-header">
+                    <h5><a href="/docs?cate={{ c }}&topic={{ topic[0] }}" style="color: white">主题{{ topic[0] }}</a>：</h5>
+                </div>
+                <div class="card-body">
+                    <h6>主题关键词：
+                        {% for keyword in topic[1] %}
+                            {{ keyword+"，" }}
+                        {% endfor %}
+                    </h6>
+                </div>
+            </div><br>
+        {% endfor %}
 
-    <div class="card bg-secondary text-white">
-        <div class="card-header">
-            <h5>主题2：</h5>
-        </div>
-        <div class="card-body">
-            <h6>主题关键词：xxx,xxx</h6>
-        </div>
-    </div><br>
-
-    <div class="card bg-secondary text-white">
-        <div class="card-header">
-            <h5>主题3：</h5>
-        </div>
-        <div class="card-body">
-            <h6>主题关键词：xxx,xxx</h6>
-        </div>
-    </div><br>
-</div>
+    </div>
 
 </body>
 </html>

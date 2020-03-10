@@ -12,28 +12,29 @@
 <body>
 
 <div class="container">
-    <h3>主题x的文档：</h3>
+    <h3>类别{{ cate }}主题{{ topic }}的文档：</h3>
     <h6>&nbsp;&nbsp;内容：文档的基本信息，关键词，摘要。</h6><br>
 
     <div class="container">
         <div id="accordion">
-            <div class="card">
+            {% for i in range(0,len) %}
+                <div class="card">
                 <div class="card-header" style="background-color: darkgray;">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" style="color: white">
-                        NO x：x &nbsp;&nbsp;&nbsp;&nbsp;title：xxx<br>
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree+{{ i }}" style="color: white">
+                        NO：{{ i }} &nbsp;&nbsp;&nbsp;&nbsp;title：{{ title_list[i] }}<br>
                     </a>
                 </div>
-                <div id="collapseThree" class="collapse" data-parent="#accordion">
+                <div id="collapseThree+{{ i }}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
-                        from：xxx<br><br>
-                        to：xxx<br><br>
-                        date：xxx<br><br>
-                        关键词：xxx<br><br>
-                        摘要：xxx<br><br>
-                        原文：xxx<br><br>
+                        from：{{ from_list[i] }}<br><br>
+                        to：{{ to_list[i] }}<br><br>
+                        关键词：{{ key_list[i] }}<br><br>
+                        摘要：{{ summary_list[i] }}<br><br>
+                        原文：{{ doc_list[i] }}<br><br>
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
