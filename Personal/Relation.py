@@ -20,7 +20,6 @@ def get_personal_realtionship():
         else:
             edges_weight_temp[temp] += 1
 
-
     temp_node_list = {}
     node_list = []
     links = [{"source": key[0], "target":key[1], "weight":val} for key, val in edges_weight_temp.items() if key[0] != key[1]]
@@ -36,10 +35,6 @@ def get_personal_realtionship():
 
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
-
-    print(node_list)
-
-    print(links)
 
     graph= (
             Graph(init_opts=opts.InitOpts(width="1500px", height="1000px"))
