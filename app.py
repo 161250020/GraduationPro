@@ -6,7 +6,7 @@ app = Flask(__name__) # 确定APP的启动路径
 
 @app.route('/')
 def Categories():
-
+    return render_template('mainPage.html')
 
 @app.route('/g',methods=['GET','POST'])
 def pg():
@@ -23,5 +23,13 @@ def pg():
 def p():
     return render_template('index2.html',test='123')
 
+@app.route('/p_relation',methods=['get','post'])
+def p_relation():
+    return render_template('render.html')
+
+@app.route('/p_keywords',methods=['get','post'])
+def p_keywords():
+    return  render_template('render.html')
+
 if __name__ == '__main__':
-    app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己
+    app.run(debug=True, port=80) # 127.0.0.1:回路，自己访问自己
