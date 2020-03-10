@@ -1,7 +1,6 @@
 #!usr/bin/python
 #-*-coding:utf-8-*-
 
-import os,re,sys
 import math
 import pymongo
 import lda
@@ -10,17 +9,11 @@ from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
+from Enterprise.interpersonal_network import InterpersonalNetwork
+import os,re,sys
 from sklearn.feature_extraction.text import  TfidfVectorizer
 from sklearn.externals import joblib
 from sklearn import feature_extraction
-from Enterprise.interpersonal_network import InterpersonalNetwork
-
-
-'''
-分词函数，按照空格进行分词
-'''
-def words_tokenize(text):
-    return text.split(' ')
 
 '''
 获得数据库的内容
@@ -158,10 +151,10 @@ if __name__=='__main__':
     for i in range(0,len(from_email)):
         interpersonalNetwork.addNode(from_email[i],to_email[i])
     # 测试
-    #print(interpersonalNetwork.set)
-    #print(interpersonalNetwork.countEgdes)
-    #print(interpersonalNetwork.outDegree)
-    #print(interpersonalNetwork.inDegree)
+    print("人际关系网络:",interpersonalNetwork.set)
+    print("人际关系网络:",interpersonalNetwork.countEgdes)
+    print("人际关系网络:",interpersonalNetwork.outDegree)
+    print("人际关系网络:",interpersonalNetwork.inDegree)
 
     '''
     sklearn自带分词：
@@ -192,7 +185,7 @@ if __name__=='__main__':
         tmp.append(i)
         cluster[fin_kmeans.labels_[i]] = tmp
         i += 1
-    # print("分类：", cluster)
+    print("分类：", cluster)
 
     # 对于每一类的文档们将进行如下几步操作：
     cluster_topics = {}
@@ -216,7 +209,7 @@ if __name__=='__main__':
         n_topics = min(len(corpus), 1)  # 取值范围：1，...，len(corpus)，1/0个文章，topic数量即为该数量
         perplexity_list = []  # 不同主题数量的困惑度
         if (len(corpus) > 1):
-            for i in range(1, len(corpus)):
+            for i in range(1, len(corpus)+1):
                 n_topics = i
                 # print("tmp_n_topics", n_topics)
                 # 训练模型
@@ -262,7 +255,7 @@ if __name__=='__main__':
             tmp2.append(clu[1][j])
             tmp[topic_index][2] = tmp2
         cluster_topics[clu[0]] = tmp
-    # print("cluster_topics:", np.asarray(cluster_topics))
+    print("cluster_topics:", np.asarray(cluster_topics))
 
     '''
     计算文章的关键词（存特征值的index）
@@ -284,7 +277,7 @@ if __name__=='__main__':
         topN_words2=topN_words2+title[i].split(' ')
         # print("title[i].split:",title[i].split(' '))
         doc_keyWords.append(topN_words2)
-    # print("doc_keyWords:", np.asarray(doc_keyWords))
+    print("doc_keyWords:", np.asarray(doc_keyWords))
 
     '''
     对文章进行摘要
@@ -311,7 +304,7 @@ if __name__=='__main__':
                     #往后数门槛值+1个单词
                     tmp_split_words=split_words[k+1:k+2+threshold_value]
                     tmp_split_words_len=len(tmp_split_words)
-                    for w in range(0,tmp_split_words_len-1):
+                    for w in range(0,tmp_split_words_len):
                         last_word=tmp_split_words.pop()
                         if last_word in key_words:
                             last_key_word=True

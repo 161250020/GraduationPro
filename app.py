@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request
 
+# @app.route('/') # 路由
+# return render_template('index.html') # 把HTML文件读进来，再交给浏览器
 app = Flask(__name__) # 确定APP的启动路径
 
-@app.route('/') # 路由
-def html_test():
-    return render_template('index.html') # 把HTML文件读进来，再交给浏览器
+@app.route('/')
+def Categories():
+
 
 @app.route('/g',methods=['GET','POST'])
 def pg():

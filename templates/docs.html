@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>主题文档</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <h3>主题x的文档：</h3>
+    <h6>&nbsp;&nbsp;内容：文档的基本信息，关键词，摘要。</h6><br>
+
+    <div class="container">
+        <div id="accordion">
+            <div class="card">
+                <div class="card-header" style="background-color: darkgray;">
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree" style="color: white">
+                        NO x：x &nbsp;&nbsp;&nbsp;&nbsp;title：xxx<br>
+                    </a>
+                </div>
+                <div id="collapseThree" class="collapse" data-parent="#accordion">
+                    <div class="card-body">
+                        from：xxx<br><br>
+                        to：xxx<br><br>
+                        date：xxx<br><br>
+                        关键词：xxx<br><br>
+                        摘要：xxx<br><br>
+                        原文：xxx<br><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cli() {
+        document.getElementById("card").innerText='change'
+    }
+</script>
+
+</body>
+</html>
