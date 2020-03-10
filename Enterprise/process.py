@@ -48,7 +48,7 @@ def loadData():
 '''
 获得k-means的k：符合标准：inertia,dunn index
 '''
-def fin_k(weight):
+def fin_k(file_list,weight):
     fin_n = 1  # 最终簇数量，小于等于：根号n
     inertias = []  # 簇内距离：越小越好
     dunn_index = []  # 簇间距离：越大越好
