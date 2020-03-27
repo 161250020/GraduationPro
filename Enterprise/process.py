@@ -16,6 +16,12 @@ from sklearn.externals import joblib
 from sklearn import feature_extraction
 
 '''
+分词函数，按照空格进行分词
+'''
+def words_tokenize(text):
+    return text.split(' ')
+
+'''
 获得数据库的内容
 '''
 def loadData():
@@ -30,6 +36,7 @@ def loadData():
     splits = []
     doc = []
     file_list = []
+    doc_list = []
     for d in data:
         title.append(d['title'])
         from_email.append(d['from'])
@@ -40,10 +47,14 @@ def loadData():
         for sentence in d['split']:
             file = file + sentence + ' '
         file_list.append(file)
+        document=''
+        for sentence in d['doc']:
+            document=document+sentence
+        doc_list.append(document)
     # print("title:",title)
     # print("doc:",np.asarray(doc))
     # print("file_list:",file_list)
-    return title,from_email,to_email,splits,doc,file_list
+    return title,from_email,to_email,splits,doc,file_list,doc_list
 
 '''
 获得k-means的k：符合标准：inertia,dunn index
@@ -142,7 +153,7 @@ def fin_k(file_list,weight):
 
 if __name__=='__main__':
     #读取MongoDB数据库内容
-    title, from_email, to_email, splits, doc, file_list=loadData()
+    title, from_email, to_email, splits, doc, file_list, doc_list=loadData()
 
     '''
     人际关系网络

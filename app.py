@@ -1,31 +1,27 @@
-import math
-import pymongo
-import lda
+import math, lda
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 from flask import Flask, render_template, request
-from Enterprise.process import loadData, fin_k
+from Enterprise.process import loadData, fin_k, words_tokenize
 from Enterprise.interpersonal_network import InterpersonalNetwork
 
-from Personal.Relation import get_personal_realtionship
-from Personal.Keyword import get_keywords
 # @app.route('/') # 路由
 # return render_template('index.html') # 把HTML文件读进来，再交给浏览器
 app = Flask(__name__) # 确定APP的启动路径
 
 # 读取MongoDB数据库内容
-title, from_email, to_email, splits, doc, file_list = loadData()
+title, from_email, to_email, splits, doc, file_list,doc_list = loadData()
 cluster = {}
 cluster_topics = {}
 doc_keyWords = []
 summary=[]
 '''
-sklearn自带分词：
+sklearn：分词函数
 '''
-vectorizer = CountVectorizer(min_df=2)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+#vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+vectorizer = CountVectorizer(min_df=2)
 transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
 X = vectorizer.fit_transform(file_list)
 tfidf = transformer.fit_transform(X)
@@ -92,6 +88,7 @@ def topics():
             corpus = []
             for file_index in clu[1]:
                 corpus.append(file_list[file_index])
+            #tmp_vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)
             tmp_vectorizer = CountVectorizer(min_df=2)
             tmp_X = tmp_vectorizer.fit_transform(corpus)
             tmp_word = tmp_vectorizer.get_feature_names()
@@ -120,7 +117,6 @@ def topics():
                         if (perplexity_list[-1] >= perplexity_list[-2]):
                             break
             # print("n_topics:", n_topics)
-    return render_template('mainPage.html')
 
             # 训练模型
             model = lda.LDA(n_topics=n_topics)
@@ -194,32 +190,49 @@ def docs():
             # 该文章对应的三个属性
             sub_split = splits[i]
             sub_doc = doc[i]
-            sub_file = file_list[i]
             cluster_value = []  # 存储每一句话的簇的重要性
             for j in range(len(sub_split)):  # 对于该文章的每一句话
                 # 计算该句子的簇的重要性
                 v = 0  # 初始化该句子重要性
                 split_words = sub_split[j].split(' ')
-                for k in range(len(split_words)):  # 对于每一句话的每个单词
-                    if split_words[k] in key_words:  # 第一个单词为关键词
-                        key_word_num = 1  # 该句的关键词个数
-                        cluster_len = threshold_value + 2  # 簇的长度
-                        last_key_word = False
-                        # 往后数门槛值+1个单词
-                        tmp_split_words = split_words[k + 1:k + 2 + threshold_value]
-                        tmp_split_words_len = len(tmp_split_words)
-                        for w in range(0, tmp_split_words_len):
-                            last_word = tmp_split_words.pop()
-                            if last_word in key_words:
-                                last_key_word = True
-                                key_word_num += 1
-                            if not last_key_word:
-                                cluster_len -= 1
-                        v = max(v, key_word_num * key_word_num / cluster_len)
+                if(len(split_words)>(threshold_value+2)):
+                    for k in range(len(split_words)):  # 对于每一句话的每个单词
+                        if split_words[k] in key_words:  # 第一个单词为关键词
+                            key_word_num = 1  # 该句的关键词个数
+                            cluster_len = threshold_value + 2  # 簇的长度
+                            last_key_word = False
+                            # 往后数门槛值+1个单词
+                            tmp_split_words = split_words[k + 1:k + 2 + threshold_value]
+                            tmp_split_words_len = len(tmp_split_words)
+                            for w in range(0, tmp_split_words_len):
+                                last_word = tmp_split_words.pop()
+                                if last_word in key_words:
+                                    last_key_word = True
+                                    key_word_num += 1
+                                if not last_key_word:
+                                    cluster_len -= 1
+                            v = max(v, key_word_num * key_word_num / cluster_len)
+                else:
+                    for k in range(len(split_words)):  # 对于每一句话的每个单词
+                        if split_words[k] in key_words:  # 第一个单词为关键词
+                            key_word_num = 1  # 该句的关键词个数
+                            cluster_len = threshold_value + 2  # 簇的长度
+                            last_key_word = False
+                            # 往后数门槛值+1个单词
+                            tmp_split_words = split_words[k + 1:]
+                            tmp_split_words_len = len(tmp_split_words)
+                            for w in range(0, tmp_split_words_len):
+                                last_word = tmp_split_words.pop()
+                                if last_word in key_words:
+                                    last_key_word = True
+                                    key_word_num += 1
+                                if not last_key_word:
+                                    cluster_len -= 1
+                            v = max(v, key_word_num * key_word_num / cluster_len)
                 cluster_value.append(v)
             # print("cluster_value:",cluster_value)
             # 选出簇的重要性排名靠前的作为该篇文章的摘要
-            n = int(math.sqrt(len(sub_split)))  # 摘要的句子的个数：开根号句子的长度
+            n = int(math.sqrt(len(sub_split)))  # 摘要的句子的个数：开根号句子的个数
             # print("n:",n)
             distIndexArr = np.argsort(cluster_value)
             topN_index = distIndexArr[:-(n + 1):-1]
@@ -240,16 +253,16 @@ def docs():
     title_list=[]
     key_list=[]
     summary_list=[]
-    doc_list=[]
+    doc2_list=[]
     for i in docs:
         from_list.append(from_email[i])
         to_list.append(to_email[i])
         title_list.append(title[i])
         key_list.append(doc_keyWords[i])
         summary_list.append(summary[i])
-        doc_list.append(file_list[i])
+        doc2_list.append(doc_list[i])
     return render_template('docs.html',cate=cate,topic=topic,len=len(docs),from_list=from_list,to_list=to_list,title_list=title_list,\
-                           key_list=key_list,summary_list=summary_list,doc_list=doc_list)
+                           key_list=key_list,summary_list=summary_list,doc_list=doc2_list)
 
 '''
 @app.route('/g',methods=['GET','POST'])
@@ -267,16 +280,5 @@ def pg():
 def p():
     return render_template('index2.html',test='123')
 '''
-
-@app.route('/p_relation',methods=['get','post'])
-def p_relation():
-    get_personal_realtionship()
-    return render_template('personal_relationship.html')
-
-@app.route('/p_keywords',methods=['get','post'])
-def p_keywords():
-    get_keywords()
-    return  render_template('personal_keywords.html')
-
 if __name__ == '__main__':
-    app.run(debug=True, port=80) # 127.0.0.1:回路，自己访问自己
+    app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己

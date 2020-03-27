@@ -20,11 +20,11 @@
             {% for i in range(0,len) %}
                 <div class="card">
                 <div class="card-header" style="background-color: darkgray;">
-                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree+{{ i }}" style="color: white">
+                    <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree{{ i }}" style="color: white">
                         NO：{{ i }} &nbsp;&nbsp;&nbsp;&nbsp;title：{{ title_list[i] }}<br>
                     </a>
                 </div>
-                <div id="collapseThree+{{ i }}" class="collapse" data-parent="#accordion">
+                <div id="collapseThree{{ i }}" class="collapse" data-parent="#accordion">
                     <div class="card-body">
                         from：{{ from_list[i] }}<br><br>
                         to：{{ to_list[i] }}<br><br>
