@@ -127,27 +127,6 @@ def get_mail(host, username, password, port=993):  # 端口自行选择空闲端
     return title, addresser, addressee, copy, content
 
 
-# 读取中文邮件集
-def get_emails(db):
-    path = "trec06c/data"
-    dirs = os.listdir(path)
-    for dir in dirs:
-        user = MongoDB.choose_user(db, dir)
-        emails = os.listdir(path + "/" + dir)
-        new_emails = []
-        for e in emails:
-            email_path = path + "/" + dir + "/" + e
-            print(email_path)
-            text = fc.get_text(email_path)
-            msg = email.message_from_string(text)
-            title, addresser, addressee, copy = parse_header(msg)
-            content = parse_body(msg)
-            content = JB.participle_text(content)
-            new_email = myEmail.set_email(title, addresser, addressee, copy, content)
-            new_emails.append(new_email)
-
-        # mongodb.insert_many(user, new_emails)
-
 # # 连接邮箱
 # host = "imap.qq.com"
 # username = "1351446867@qq.com"

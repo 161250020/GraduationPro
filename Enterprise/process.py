@@ -26,10 +26,10 @@ def words_tokenize(text):
 '''
 def loadData():
     # 读取MongoDB数据库内容
-    client = pymongo.MongoClient(host='127.0.0.1')
+    client = pymongo.MongoClient(host='localhost', port=27017)
     mydb = client["email"]  # 数据库
-    mycollection = mydb.Collections
-    data = mycollection.find({}, {'_id': 0, 'title': 1, 'from': 1, 'to': 1, 'doc': 1, 'split': 1})
+    collection_names = mydb.collection_names()
+
     title = []  # 对于每个文章的关键词带上title
     from_email = []
     to_email = []
@@ -37,21 +37,24 @@ def loadData():
     doc = []
     file_list = []
     doc_list = []
-    for d in data:
-        title.append(d['title'])
-        from_email.append(d['from'])
-        to_email.append(d['to'])
-        splits.append(d['split'])
-        doc.append(d['doc'])
-        file = ''
-        for sentence in d['split']:
-            file = file + sentence + ' '
-        file_list.append(file)
-        document=''
-        for sentence in d['doc']:
-            document=document+sentence
-        doc_list.append(document)
-    # print("title:",title)
+    for collection_name in collection_names:
+        mycollection = mydb["{}".format(collection_name)]
+        data = mycollection.find({}, {'_id': 0, 'title': 1, 'from': 1, 'to': 1, 'doc': 1, 'split': 1})
+        for d in data:
+            title.append(d['title'])
+            from_email.append(d['from'])
+            to_email.append(d['to'])
+            splits.append(d['split'])
+            doc.append(d['doc'])
+            file = ''
+            for sentence in d['split']:
+                file = file + sentence + ' '
+            file_list.append(file)
+            document=''
+            for sentence in d['doc']:
+                document=document+sentence
+            doc_list.append(document)
+    print("title:", len(title))
     # print("doc:",np.asarray(doc))
     # print("file_list:",file_list)
     return title,from_email,to_email,splits,doc,file_list,doc_list

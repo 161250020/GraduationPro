@@ -10,7 +10,9 @@ def get_content(email_text):
               email_text.find("charset"),email_text.find("Disposition-Notification-To"))
     i = 0
     for line in email_text[pos:].splitlines(keepends=True):
-        line = line.replace(" ","")
+        r1 = "\s+"
+        line = re.sub(r1, " ", line)
+        line = line.replace("\n", "")
         if i > 0:
             email_content += line
         i += 1

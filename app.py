@@ -12,7 +12,7 @@ from Enterprise.interpersonal_network import InterpersonalNetwork
 app = Flask(__name__) # 确定APP的启动路径
 
 # 读取MongoDB数据库内容
-title, from_email, to_email, splits, doc, file_list,doc_list = loadData()
+title, from_email, to_email, splits, doc, file_list, doc_list = loadData()
 cluster = {}
 cluster_topics = {}
 doc_keyWords = []
