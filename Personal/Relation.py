@@ -8,8 +8,8 @@ from pyecharts import options as opts
 def get_personal_realtionship():
     myclient = pymongo.MongoClient('mongodb://localhost:27017')
 
-    mydb = myclient["admin"]
-    mycol = mydb["mail"]
+    mydb = myclient["email"]
+    mycol = mydb["000"]
 
     print(mycol)
     edges_weight_temp = defaultdict(list)
@@ -44,4 +44,4 @@ def get_personal_realtionship():
                 label_opts=opts.LabelOpts(is_show=False),)
             .set_global_opts(title_opts=opts.TitleOpts(title="邮箱关系网"))
         )
-    graph.render('templates/personal_relationship.html')
+    graph.render('../templates/personal_relationship.html')

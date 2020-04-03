@@ -3,14 +3,16 @@
 emails = []
 
 
-def set_email(title, addresser, addressee, copy, doc, split):
+def set_email(title, addresser, addressee, copy, date, doc, split, email_kind):
     email = {
         "title": title,
         "from": addresser,
         "to": addressee,
         "cc": copy,
+        "date": date,
         "doc": doc,
-        "split": split
+        "split": split,
+        "emailKind": email_kind
     }
     return email
 
