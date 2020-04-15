@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from Enterprise.process import loadData, fin_k, words_tokenize
 from Enterprise.interpersonal_network import InterpersonalNetwork
 
@@ -30,9 +30,24 @@ weight = tfidf.toarray()  # 计算TF-IDF权重
 # print("词袋模型：", word)
 # print("TF-IDF权重：", weight)
 
+
 @app.route('/')
 def dir():
     return render_template('dir.html')
+
+
+@app.route('/drawChart', methods=['GET'])
+def showChart():
+    date = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    number = [820, 932, 901, 934, 1290, 1330, 1320]
+    return jsonify({'date': date, 'number': number})
+
+
+@app.route('/getUserName', methods=['GET', 'POST'])
+def Try():
+    userID = request.form.get('id')
+    return 'Nie Wentao'
+
 
 @app.route('/choose',methods=['POST'])
 def choose():
@@ -263,6 +278,7 @@ def docs():
         doc2_list.append(doc_list[i])
     return render_template('docs.html',cate=cate,topic=topic,len=len(docs),from_list=from_list,to_list=to_list,title_list=title_list,\
                            key_list=key_list,summary_list=summary_list,doc_list=doc2_list)
+
 
 '''
 @app.route('/g',methods=['GET','POST'])
