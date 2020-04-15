@@ -1,20 +1,3 @@
-#!usr/bin/python
-#-*-coding:utf-8-*-
-
-import math
-import pymongo
-import lda
-import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.decomposition import LatentDirichletAllocation
-from Enterprise.interpersonal_network import InterpersonalNetwork
-import os,re,sys
-from sklearn.feature_extraction.text import  TfidfVectorizer
-from sklearn.externals import joblib
-from sklearn import feature_extraction
-
 '''
 分词函数，按照空格进行分词
 '''
