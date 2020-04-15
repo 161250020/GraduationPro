@@ -74,6 +74,7 @@ def parse_body(message):
                 # 下面的三行代码只是为了解码，像=?gbk?Q?=CF=E0=C6=AC.rar?=这样的文件名
                 fdh = decode_header(name)
                 fname = fdh[0][0]
+                fname = fdh[0][0]
                 print("附件名:", fname)
                 # attach_data = par.get_payload(decode=True) #　解码出附件数据，然后存储到文件中
                 # try:
