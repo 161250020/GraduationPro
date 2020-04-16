@@ -1,14 +1,13 @@
 import numpy as np
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-from flask import Flask, render_template, request
-from Enterprise.db import loadData
-from sklearn.decomposition import LatentDirichletAllocation
 from flask import Flask, render_template, request, jsonify
-from Enterprise.process import loadData, fin_k, words_tokenize
+from Enterprise.db import loadData
 from Enterprise.interpersonal_network import InterpersonalNetwork
 from Enterprise.choose import classify
 from Enterprise.topic import calLda
 from Enterprise.docs import cal_doc_keyWords
+from Enterprise.docs import get_summary
+
 
 app = Flask(__name__) # 确定APP的启动路径
 
@@ -105,7 +104,7 @@ def docs():
     对文章进行摘要
     '''
     if(len(summary)==0):
-        summary(file_list, doc_keyWords, splits, doc)
+        get_summary(file_list, doc_keyWords, splits, doc)
         print("summary:",summary)
 
     # 进行响应值的计算
@@ -128,21 +127,5 @@ def docs():
                            key_list=key_list,summary_list=summary_list,doc_list=doc2_list)
 
 
-'''
-@app.route('/g',methods=['GET','POST'])
-def pg():
-    if request.method=='GET':
-        name = request.args.get("name")
-        print("form-get-name:", name)
-        return render_template('index.html')
-    if request.method=='POST':
-        name = request.form.get("name")
-        print("form-post-name:", name)
-        return render_template('index.html')
-
-@app.route('/p', methods=['POST'])
-def p():
-    return render_template('index2.html',test='123')
-'''
 if __name__ == '__main__':
     app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己

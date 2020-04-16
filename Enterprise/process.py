@@ -1,8 +1,20 @@
+import math
+
+import pymongo
+from lda import lda
+from pandas.tests.extension.numpy_.test_numpy_nested import np
+from sklearn.cluster import KMeans
+from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+
+from Enterprise.interpersonal_network import InterpersonalNetwork
+
 '''
 分词函数，按照空格进行分词
 '''
 def words_tokenize(text):
     return text.split(' ')
+
 
 '''
 获得数据库的内容
