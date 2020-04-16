@@ -1,14 +1,17 @@
 import numpy as np
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from flask import Flask, render_template, request
-from Enterprise.db import loadData
-from Enterprise.interpersonal_network import InterpersonalNetwork
-from Enterprise.choose import classify
-from Enterprise.process import words_tokenize
-from Enterprise.topic import calLda
-from Enterprise.docs import cal_doc_keyWords, get_summary
+from Enterprise.service.get_data import loadData
+from Enterprise.service.interpersonal_network import InterpersonalNetwork
+from Enterprise.service.choose import classify
+from Enterprise.service.process import words_tokenize
+from Enterprise.service.topic import calLda
+from Enterprise.service.docs import get_summary
+from Enterprise.service.key_words import cal_doc_keyWords
+from Enterprise.controller.index import index_enter
 
 app = Flask(__name__) # 确定APP的启动路径
+app.register_blueprint(index_enter,url_prefix='/enterprise')
 
 # 读取MongoDB数据库内容
 title, from_email, to_email, splits, doc, file_list,doc_list = loadData()
@@ -43,7 +46,7 @@ def choose():
         for clu in cluster.items():
             show[clu[0]] = len(clu[1])
         show = sorted(show.items(), key=lambda x: x[0])
-        return render_template('categories.html',show=show)
+        return render_template('categories.html', show=show)
     else:
         '''
         人际关系网络
@@ -68,7 +71,7 @@ def topics():
         calLda(cluster, file_list, cluster_topics)
         print("cluster_topics:", cluster_topics)
     print("value:",cluster_topics[int(cate)])
-    return render_template('Topics.html',c=cate, value=cluster_topics[int(cate)])
+    return render_template('Topics.html', c=cate, value=cluster_topics[int(cate)])
 
 @app.route('/docs')
 def docs():
@@ -107,8 +110,8 @@ def docs():
         key_list.append(doc_keyWords[i])
         summary_list.append(summary[i])
         doc2_list.append(doc_list[i])
-    return render_template('docs.html',cate=cate,topic=topic,len=len(docs),from_list=from_list,to_list=to_list,title_list=title_list,\
-                           key_list=key_list,summary_list=summary_list,doc_list=doc2_list)
+    return render_template('docs.html', cate=cate, topic=topic, len=len(docs), from_list=from_list, to_list=to_list, title_list=title_list, \
+                           key_list=key_list, summary_list=summary_list, doc_list=doc2_list)
 
 if __name__ == '__main__':
     app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己

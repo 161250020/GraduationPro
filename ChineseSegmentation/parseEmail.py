@@ -129,7 +129,7 @@ def get_mail(host, username, password, port=993):  # 端口自行选择空闲端
 
 # 读取中文邮件集
 def get_emails(db):
-    path = "trec06c/data"
+    path = "trec06c/dao"
     dirs = os.listdir(path)
     for dir in dirs:
         user = MongoDB.choose_user(db, dir)
