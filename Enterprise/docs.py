@@ -18,7 +18,7 @@ def cal_doc_keyWords(weight,word,title,doc_keyWords):
         # print("title[i].split:",title[i].split(' '))
         doc_keyWords.append(topN_words2)
 
-def summary(file_list,doc_keyWords,splits,doc):
+def get_summary(file_list,doc_keyWords,splits,doc,summary):
     threshold_value = 5  # 门槛值：5
     for i in range(len(file_list)):  # 对于每一个文章而言
         # 该篇文章对应的关键词

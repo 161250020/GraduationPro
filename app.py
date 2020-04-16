@@ -4,8 +4,9 @@ from flask import Flask, render_template, request
 from Enterprise.db import loadData
 from Enterprise.interpersonal_network import InterpersonalNetwork
 from Enterprise.choose import classify
+from Enterprise.process import words_tokenize
 from Enterprise.topic import calLda
-from Enterprise.docs import cal_doc_keyWords
+from Enterprise.docs import cal_doc_keyWords, get_summary
 
 app = Flask(__name__) # 确定APP的启动路径
 
@@ -18,8 +19,8 @@ summary=[]
 '''
 sklearn：分词函数
 '''
-#vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
-vectorizer = CountVectorizer(min_df=2)
+vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+#vectorizer = CountVectorizer(min_df=2)
 transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
 X = vectorizer.fit_transform(file_list)
 tfidf = transformer.fit_transform(X)
@@ -87,7 +88,7 @@ def docs():
     对文章进行摘要
     '''
     if(len(summary)==0):
-        summary(file_list, doc_keyWords, splits, doc)
+        get_summary(file_list, doc_keyWords, splits, doc,summary)
         print("summary:",summary)
 
     # 进行响应值的计算
