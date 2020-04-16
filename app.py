@@ -4,15 +4,14 @@ from flask import Flask, render_template, request, jsonify
 from Enterprise.db import loadData
 from Enterprise.interpersonal_network import InterpersonalNetwork
 from Enterprise.choose import classify
+from Enterprise.process import words_tokenize
 from Enterprise.topic import calLda
-from Enterprise.docs import cal_doc_keyWords
-from Enterprise.docs import get_summary
-
+from Enterprise.docs import cal_doc_keyWords, get_summary
 
 app = Flask(__name__) # 确定APP的启动路径
 
 # 读取MongoDB数据库内容
-title, from_email, to_email, splits, doc, file_list, doc_list = loadData()
+title, from_email, to_email, splits, doc, file_list,doc_list = loadData()
 cluster = {}
 cluster_topics = {}
 doc_keyWords = []
@@ -20,8 +19,8 @@ summary=[]
 '''
 sklearn：分词函数
 '''
-#vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
-vectorizer = CountVectorizer(min_df=2)
+vectorizer = CountVectorizer(min_df=2,tokenizer=words_tokenize,lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+#vectorizer = CountVectorizer(min_df=2)
 transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
 X = vectorizer.fit_transform(file_list)
 tfidf = transformer.fit_transform(X)
@@ -29,7 +28,6 @@ word = vectorizer.get_feature_names()  # 获取词袋模型中词语
 weight = tfidf.toarray()  # 计算TF-IDF权重
 # print("词袋模型：", word)
 # print("TF-IDF权重：", weight)
-
 
 @app.route('/')
 def dir():
@@ -104,7 +102,7 @@ def docs():
     对文章进行摘要
     '''
     if(len(summary)==0):
-        get_summary(file_list, doc_keyWords, splits, doc)
+        get_summary(file_list, doc_keyWords, splits, doc,summary)
         print("summary:",summary)
 
     # 进行响应值的计算
