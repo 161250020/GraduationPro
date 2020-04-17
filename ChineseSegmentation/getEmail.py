@@ -57,7 +57,7 @@ def find_min_date_pos(email_text):
 
 
 def get_emails(db):
-    path = "trec06c/data"
+    path = "trec06c/dao"
     dirs = os.listdir(path)
     new_emails = []
     i = 0

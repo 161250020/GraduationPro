@@ -74,7 +74,6 @@ def parse_body(message):
                 # 下面的三行代码只是为了解码，像=?gbk?Q?=CF=E0=C6=AC.rar?=这样的文件名
                 fdh = decode_header(name)
                 fname = fdh[0][0]
-                fname = fdh[0][0]
                 print("附件名:", fname)
                 # attach_data = par.get_payload(decode=True) #　解码出附件数据，然后存储到文件中
                 # try:
@@ -127,6 +126,27 @@ def get_mail(host, username, password, port=993):  # 端口自行选择空闲端
     service.logout()
     return title, addresser, addressee, copy, content
 
+
+# 读取中文邮件集
+def get_emails(db):
+    path = "trec06c/dao"
+    dirs = os.listdir(path)
+    for dir in dirs:
+        user = MongoDB.choose_user(db, dir)
+        emails = os.listdir(path + "/" + dir)
+        new_emails = []
+        for e in emails:
+            email_path = path + "/" + dir + "/" + e
+            print(email_path)
+            text = fc.get_text(email_path)
+            msg = email.message_from_string(text)
+            title, addresser, addressee, copy = parse_header(msg)
+            content = parse_body(msg)
+            content = JB.participle_text(content)
+            new_email = myEmail.set_email(title, addresser, addressee, copy, content)
+            new_emails.append(new_email)
+
+        # mongodb.insert_many(user, new_emails)
 
 # # 连接邮箱
 # host = "imap.qq.com"
