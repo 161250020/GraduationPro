@@ -121,6 +121,7 @@ def docs():
         key_list.append(doc_keyWords[i])
         summary_list.append(summary[i])
         doc2_list.append(doc_list[i])
+    print(len(topic))
     return render_template('docs.html',cate=cate,topic=topic,len=len(docs),from_list=from_list,to_list=to_list,title_list=title_list,\
                            key_list=key_list,summary_list=summary_list,doc_list=doc2_list)
 
