@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from Enterprise.service.get_data import loadData
-from Enterprise.service.process import words_tokenize
+from Enterprise.service.exit import words_tokenize
 
 class Glo:
     # 全局变量
