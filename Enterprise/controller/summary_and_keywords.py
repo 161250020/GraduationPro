@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from Enterprise.glo import Glo
-from Enterprise.service.docs import get_summary
+from Enterprise.service.doc_summary import get_summary
 from Enterprise.service.key_words import cal_doc_keyWords
 import numpy as np
 

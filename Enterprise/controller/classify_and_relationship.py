@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import render_template, request
 from Enterprise.glo import Glo
 from Enterprise.service.interpersonal_network import InterpersonalNetwork
-from Enterprise.service.choose import classify
+from Enterprise.service.kmeans_classify import classify
 
 enterprise = Blueprint('enterprise',__name__)
 

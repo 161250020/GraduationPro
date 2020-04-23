@@ -1,3 +1,4 @@
+import gensim
 import lda
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
@@ -26,21 +27,18 @@ def calLda(cluster,file_list,cluster_topics):
         perplexity_list = []  # 不同主题数量的困惑度
         if (len(corpus) > 1):
             for i in range(1, len(corpus) + 1):
-                n_topics = i
-                # print("tmp_n_topics", n_topics)
-                # 训练模型
+                # 计算不同topic个数的LDA
+                n_topics = i # topic个数
                 tmp_lda = LatentDirichletAllocation(n_components=i)
                 tmp_lda.fit(np.asarray(tmp_nums))
+
                 # 困惑度
                 perplexity_list.append(tmp_lda.perplexity(tmp_nums))
                 # 判断是否结束困惑度计算：
                 # 两次计算困惑度比值：后/前>=0.95；后>=前；时结束
                 if (len(perplexity_list) >= 2):
-                    if ((perplexity_list[-1] / perplexity_list[-2]) >= 0.95):
+                    if (((perplexity_list[-1] / perplexity_list[-2]) >= 0.95) or (perplexity_list[-1] >= perplexity_list[-2])):
                         break
-                    if (perplexity_list[-1] >= perplexity_list[-2]):
-                        break
-        # print("n_topics:", n_topics)
 
         # 训练模型
         model = lda.LDA(n_topics=n_topics)
@@ -71,3 +69,6 @@ def calLda(cluster,file_list,cluster_topics):
             tmp2.append(clu[1][j])
             tmp[topic_index][2] = tmp2
         cluster_topics[clu[0]] = tmp
+
+def calLda2(cluster,file_list,cluster_topics):
+    pass
