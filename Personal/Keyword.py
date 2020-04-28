@@ -30,5 +30,6 @@ def get_keywords():
     print(data)
 
     myWordCloud = WordCloud(init_opts=opts.InitOpts(width="1500px", height="1000px"))
-    myWordCloud.add('', data, shape='circle', word_gap=20, word_size_range=[50, 200], rotate_step=90)
+    myWordCloud.add('', data, shape='circle', word_gap=20, word_size_range=[50, 200], rotate_step=90)\
+        .set_global_opts(title_opts=opts.TitleOpts(title="关键词云"))
     myWordCloud.render('templates/personal_keywords.html')
