@@ -7,7 +7,7 @@ from ChineseSegmentation import FileController as fc
 # 基本分词，词性标注
 def participle_text(text):
     stop_words = fc.get_stop_words()
-    words = posseg.cut(text)
+    words = posseg.cut(text)  # 默认模式为精准模式，适合文本分析
     result = ""
     i = 0
     for word in words:
