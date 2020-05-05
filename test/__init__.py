@@ -1,6 +1,6 @@
-from Enterprise.glo import Glo
+from Enterprise.model.glo import Glo
 #导入建模库
-from gensim import corpora, models, similarities
+from gensim import corpora
 import gensim
 
 #对处理后的数据进行去停用词和分词

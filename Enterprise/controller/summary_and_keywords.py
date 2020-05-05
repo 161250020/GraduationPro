@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
-from Enterprise.glo import Glo
-from Enterprise.service.doc_summary import get_summary
-from Enterprise.service.key_words import cal_doc_keyWords
+from Enterprise.model.glo import Glo
+from Enterprise.service.doc_summary import Doc_summary
+from Enterprise.service.key_words import Key_words
 import numpy as np
 
 summary_con = Blueprint('summary',__name__)
@@ -18,12 +18,12 @@ def docs():
     # 计算文章的关键词（存特征值的index）
     # 取该文章词类型数量的根号作为关键词数量
     if (len(Glo.doc_keyWords) == 0):
-        cal_doc_keyWords(Glo.weight, Glo.word, Glo.title, Glo.doc_keyWords)
+        Key_words().cal_doc_keyWords(Glo.weight, Glo.word, Glo.title, Glo.doc_keyWords)
         print("doc_keyWords:", np.asarray(Glo.doc_keyWords))
 
     # 对文章进行摘要
     if (len(Glo.summary) == 0):
-        get_summary(Glo.file_list, Glo.doc_keyWords, Glo.splits, Glo.doc, Glo.summary)
+        Doc_summary().get_summary(Glo.file_list, Glo.doc_keyWords, Glo.splits, Glo.doc, Glo.summary)
         print("summary:", Glo.summary)
 
     # 进行响应值的计算
