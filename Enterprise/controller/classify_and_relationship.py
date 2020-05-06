@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask import render_template, request
-from Enterprise.glo import Glo
+from Enterprise.model.glo import Glo
 from Enterprise.service.interpersonal_network import InterpersonalNetwork
-from Enterprise.service.kmeans_classify import classify
+from Enterprise.service.kmeans_classify import Kmeans_classify
 
 enterprise = Blueprint('enterprise',__name__)
 
@@ -15,7 +15,7 @@ def choose():
     choose=request.form.get('func')
     if choose=='category':
         if(len(Glo.cluster)==0):
-            classify(Glo.file_list, Glo.weight,Glo.cluster)
+            Kmeans_classify().classify(Glo.file_list, Glo.weight,Glo.cluster)
         show = {}
         for clu in Glo.cluster.items():
             show[clu[0]] = len(clu[1])
