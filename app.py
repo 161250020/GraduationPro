@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify, request
 from Enterprise.controller.classify_and_relationship import enterprise
 from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
+from Personal.service import Relation
 
 app = Flask(__name__) # 确定APP的启动路径
 app.register_blueprint(enterprise,url_prefix='/enterprise')
@@ -25,6 +26,18 @@ def showChart():
 def Try():
     userID = request.form.get('id')
     return 'Nie Wentao'
+
+
+@app.route('/getAllRelationship', methods=['GET', 'POST'])
+def get_all_relationship():
+    return Relation.get_all_realtionship()
+
+
+@app.route('/getPersonalRelationship', methods=['GET', 'POST'])
+def get_personal_relationship():
+    email = request.form.get('email')
+    return Relation.get_personal_relationship(email)
+
 
 
 if __name__ == '__main__':

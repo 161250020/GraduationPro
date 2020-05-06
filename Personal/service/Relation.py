@@ -3,15 +3,16 @@ from collections import defaultdict
 
 import json
 import pymongo
+from flask import jsonify
 from pyecharts.charts import Graph
 from pyecharts import options as opts
 
 myclient = pymongo.MongoClient('mongodb://localhost:27017')
+mydb = myclient["email"]
+mycol = mydb["000"]
 
-mydb = myclient["admin"]
-mycol = mydb["mail"]
+
 def get_all_realtionship():
-
     print(mycol)
     edges_weight_temp = defaultdict(list)
     for x in mycol.find({}, {"_id": 0, "from": 1, "to": 1}):
@@ -36,16 +37,9 @@ def get_all_realtionship():
 
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
+    data = [{'node': node_list, 'link': links}]
+    return jsonify({'node': node_list, 'link': links})
 
-    graph= (
-            Graph(init_opts=opts.InitOpts(width="1500px", height="1000px"))
-            .add("", node_list, links,
-                repulsion=8000,
-                linestyle_opts=opts.LineStyleOpts(width=2,curve=0.1),
-                label_opts=opts.LabelOpts(is_show=False),)
-            .set_global_opts(title_opts=opts.TitleOpts(title="邮箱关系网"))
-        )
-    graph.render('templates/personal_relationship.html')
 
 def get_personal_relationship(mail:str):
     from_dict = {}
@@ -88,13 +82,15 @@ def get_personal_relationship(mail:str):
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
     data = [{'node':node_list,'link':link}]
-    return json.dumps(data)
+    return jsonify({'node': node_list, 'link': link})
+
 
 def main():
     data = [{'email': '874307889@qq.com'}]
     jsonData=json.dumps(data)
     data = json.loads(jsonData)
     print(data[1]['email'])
+
 
 if __name__ == '__main__':
     main()

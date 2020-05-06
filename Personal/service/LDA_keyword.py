@@ -4,6 +4,7 @@ from sklearn.externals import joblib
 import pymongo
 import gensim
 from gensim import corpora
+from flask import jsonify
 
 def clean_str(string):
     string = re.sub(r"[^\u4e00-\u9fff]", " ", string)

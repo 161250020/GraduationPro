@@ -44,4 +44,4 @@ def get_personal_realtionship():
                 label_opts=opts.LabelOpts(is_show=False),)
             .set_global_opts(title_opts=opts.TitleOpts(title="邮箱关系网"))
         )
-    graph.render('../templates/personal_relationship.html')
+    graph.render('templates/personal_relationship.html')

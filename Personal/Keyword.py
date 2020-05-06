@@ -31,4 +31,4 @@ def get_keywords():
 
     myWordCloud = WordCloud(init_opts=opts.InitOpts(width="1500px", height="1000px"))
     myWordCloud.add('', data, shape='circle', word_gap=20, word_size_range=[50, 200], rotate_step=90)
-    myWordCloud.render('../templates/personal_keywords.html')
+    myWordCloud.render('templates/personal_keywords.html')
