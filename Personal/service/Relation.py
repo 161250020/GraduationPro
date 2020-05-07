@@ -10,6 +10,7 @@ myclient = pymongo.MongoClient('mongodb://localhost:27017')
 
 mydb = myclient["admin"]
 mycol = mydb["mail"]
+##获取所有关系网
 def get_all_realtionship():
 
     print(mycol)
@@ -36,16 +37,8 @@ def get_all_realtionship():
 
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
-
-    graph= (
-            Graph(init_opts=opts.InitOpts(width="1500px", height="1000px"))
-            .add("", node_list, links,
-                repulsion=8000,
-                linestyle_opts=opts.LineStyleOpts(width=2,curve=0.1),
-                label_opts=opts.LabelOpts(is_show=False),)
-            .set_global_opts(title_opts=opts.TitleOpts(title="邮箱关系网"))
-        )
-    graph.render('templates/personal_relationship.html')
+    data = [{'node':node_list,'link':links}]
+    return json.dumps(data)
 
 def get_personal_relationship(mail:str):
     from_dict = {}
@@ -93,8 +86,8 @@ def get_personal_relationship(mail:str):
 def main():
     data = [{'email': '874307889@qq.com'}]
     jsonData=json.dumps(data)
-    data = json.loads(jsonData)
-    print(data[1]['email'])
+    #data = json.loads(jsonData)
+    #print(data[1]['email'])
 
 if __name__ == '__main__':
     main()
