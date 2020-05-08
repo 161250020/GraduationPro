@@ -11,7 +11,6 @@ myclient = pymongo.MongoClient('mongodb://localhost:27017')
 mydb = myclient["email"]
 mycol = mydb["000"]
 
-
 def get_all_realtionship():
     print(mycol)
     edges_weight_temp = defaultdict(list)
@@ -88,8 +87,8 @@ def get_personal_relationship(mail:str):
 def main():
     data = [{'email': '874307889@qq.com'}]
     jsonData=json.dumps(data)
-    data = json.loads(jsonData)
-    print(data[1]['email'])
+    #data = json.loads(jsonData)
+    #print(data[1]['email'])
 
 
 if __name__ == '__main__':
