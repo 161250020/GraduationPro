@@ -10,7 +10,7 @@ class Get_data:
     def loadData(self):
         # 读取MongoDB数据库内容
         emails = []
-        Mongodb_data().get_data_from_db(emails)
+        Mongodb_data.get_data_from_db(emails)
 
         title = []  # 对于每个文章的关键词带上title
         from_email = []
@@ -30,7 +30,7 @@ class Get_data:
                 file = file + sentence + ' '
             file_list.append(file)
             document = ''
-            for sentence in d.split:
+            for sentence in d.doc:
                 document = document + sentence
             doc_list.append(document)
         return title, from_email, to_email, splits, doc, file_list, doc_list
