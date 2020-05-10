@@ -81,8 +81,9 @@ class Kmeans_classify:
 
     def classify(file_list, weight, cluster):
         # 使用合适的簇数量进行kmeans的计算
-        fin_n = Kmeans_classify().__fin_k(file_list, weight)
-        fin_kmeans = KMeans(n_clusters=fin_n, init='k-means++')  # 使用K-means++来初始化质心，指定初始化过程
+        fin_k = Kmeans_classify.__fin_k(file_list, weight)
+        print("fin_k--------------------------:",fin_k)
+        fin_kmeans = KMeans(n_clusters=fin_k, init='k-means++')  # 使用K-means++来初始化质心，指定初始化过程
         fin_kmeans.fit(weight)
         i = 0
         while i < len(file_list):

@@ -1,6 +1,5 @@
 from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
 from Enterprise.dao.get_data import Get_data
-from Enterprise.model.glo_funcs import Glo_funcs
 
 class Glo:
     # 全局变量
@@ -11,7 +10,7 @@ class Glo:
     doc_keyWords = []
     summary = []
 
-    vectorizer = CountVectorizer(min_df=2, tokenizer=Glo_funcs().words_tokenize, lowercase=False)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+    vectorizer = CountVectorizer(min_df=2)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
     # vectorizer = CountVectorizer(min_df=2)
     transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
     X = vectorizer.fit_transform(file_list)
