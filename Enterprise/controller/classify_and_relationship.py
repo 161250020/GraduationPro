@@ -15,7 +15,7 @@ def choose():
     choose=request.form.get('func')
     if choose=='category':
         if(len(Glo.cluster)==0):
-            Kmeans_classify().classify(Glo.file_list, Glo.weight,Glo.cluster)
+            Kmeans_classify.classify(Glo.file_list, Glo.weight,Glo.cluster)
         show = {}
         for clu in Glo.cluster.items():
             show[clu[0]] = len(clu[1])
