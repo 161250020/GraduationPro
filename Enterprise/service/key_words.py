@@ -1,8 +1,10 @@
 import math
 import numpy as np
 
-class Key_words:
-    def cal_doc_keyWords(weight, word, title, doc_keyWords):
+
+class KeyWords:
+    @staticmethod
+    def cal_doc_keywords(weight, word, title, doc_keywords):
         for i in range(len(weight)):
             list_word = weight[i]
 
@@ -19,4 +21,4 @@ class Key_words:
             topN_words = np.asarray(word)[topN_index]  # top n 的words
             topN_words2 = [l for l in topN_words]
             topN_words2 = topN_words2 + title[i].split(' ')
-            doc_keyWords.append(topN_words2)
+            doc_keywords.append(topN_words2)

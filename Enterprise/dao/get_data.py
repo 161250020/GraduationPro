@@ -1,16 +1,17 @@
 #!usr/bin/python
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 
-'''
-加载数据库的内容
-'''
-from Enterprise.dao.db import Mongodb_data
+from Enterprise.dao.db import MongodbData
 
-class Get_data:
-    def loadData(self):
-        # 读取MongoDB数据库内容
+
+class GetData:
+    """加载数据库的内容"""
+
+    @staticmethod
+    def load_data():
+        """读取MongoDB数据库内容"""
         emails = []
-        Mongodb_data.get_data_from_db(emails)
+        MongodbData.get_data_from_db(emails)
 
         title = []  # 对于每个文章的关键词带上title
         from_email = []
