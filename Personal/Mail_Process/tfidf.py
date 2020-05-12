@@ -24,10 +24,10 @@ def get_data_tf_idf(email_file_name):
     content = open(email_file_name, 'r', encoding='utf8').readlines()
     vec_train = vectorizer.fit_transform(content)
     tfidf = tfidftransformer.fit_transform(vec_train)
-    feature_path = 'feature.pkl'
+    feature_path = '../../data/feature.pkl'
     with open(feature_path, 'wb') as fw:
         pickle.dump(vectorizer.vocabulary_,fw)
-    tfidftransformer_path = 'tfidftransformer.pkl'
+    tfidftransformer_path = '../../data/tfidftransformer.pkl'
     with open(tfidftransformer_path, 'wb') as fw:
         pickle.dump(tfidftransformer, fw)
     #x = vectoring.fit_transform(content)
