@@ -17,6 +17,15 @@ def get_mycol():
     mycol = mydb["mail"]
     return mycol
 
+def get_mail_by_user(user:str):
+    mycol = get_mycol()
+    mails = []
+    for i in mycol.find({"$or": {"from": user}, "et": {"to": user}}, {'_id': 1, 'title': 1, 'from': 1, 'to': 1, 'cc': 1, 'date': 1, 'doc': 1, 'split': 1, 'emailKind': 1}):
+        mail = Mail(i['_id'], i['title'], i['from'], i['to'], i['cc'], i['date'], i['doc'], i['split'], i['emailKind'])
+        mails.append(mail)
+    emails = trans(mails)
+    return emails
+
 
 def get_mail_by_date(ct: datetime, et: datetime):
     mycol = get_mycol()
