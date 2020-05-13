@@ -4,9 +4,9 @@ import numpy as np
 
 class DocSummary:
     @staticmethod
-    def get_summary(file_list, doc_keywords, splits, doc, summary):
+    def get_summary(doc_keywords, splits, doc, summary):
         threshold_value = 5  # 门槛值：5
-        for i in range(len(file_list)):  # 对于每篇文章而言
+        for i in range(len(splits)):  # 对于每篇文章而言
             key_words = doc_keywords[i]  # 该篇文章对应的关键词
             sub_split = splits[i]
             sub_doc = doc[i]
