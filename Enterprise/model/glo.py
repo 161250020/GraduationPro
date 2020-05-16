@@ -1,21 +1,21 @@
-from sklearn.feature_extraction.text import TfidfTransformer, CountVectorizer
-from Enterprise.dao.get_data import Get_data
+from Enterprise.dao.get_data import GetData
+
 
 class Glo:
     # 全局变量
     # 读取MongoDB数据库内容
-    title, from_email, to_email, splits, doc, file_list, doc_list = Get_data().loadData()
-    cluster = {}
-    cluster_topics = {}
-    doc_keyWords = []
+    title, from_email, to_email, splits, doc, file_list, doc_list = GetData.load_data()
+
+    # 邮件文本特征提取结果
+    word = []  # 获取词袋模型中词语
+    weight = []  # 计算TF-IDF权重
+
+    # 邮件聚类结果
+    cluster = {}  # cluster数据结构：{类0:[文章0, ...], 类1:[文章2, ...], ...}
+
+    # 对每类邮件进行主题分类
+    cluster_topics = {}  # cluster_topics数据结构：{类0:[LdaClusterInfo型数据, ...], 类1:[LdaClusterInfo型数据, ...]}
+
+    # 邮件关键词和主题摘要
+    doc_keywords = []
     summary = []
-
-    vectorizer = CountVectorizer(min_df=2)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
-    # vectorizer = CountVectorizer(min_df=2)
-    transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
-    X = vectorizer.fit_transform(file_list)
-    tfidf = transformer.fit_transform(X)
-    word = vectorizer.get_feature_names()  # 获取词袋模型中词语
-    weight = tfidf.toarray()  # 计算TF-IDF权重
-
-
