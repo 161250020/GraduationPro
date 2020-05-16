@@ -1,10 +1,7 @@
-from Enterprise.dao.get_data import GetData
-
-
 class Glo:
     # 全局变量
     # 读取MongoDB数据库内容
-    title, from_email, to_email, splits, doc, file_list, doc_list = GetData.load_data()
+    title, from_email, to_email, splits, doc, file_list, doc_list = [], [], [], [], [], [], []
 
     # 邮件文本特征提取结果
     word = []  # 获取词袋模型中词语
