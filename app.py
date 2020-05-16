@@ -3,6 +3,7 @@ from Enterprise.controller.classify_and_relationship import enterprise
 from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
 from Personal.service import Relation
+from Personal.service import LDA_keyword as Keyword
 
 app = Flask(__name__) # 确定APP的启动路径
 app.register_blueprint(enterprise,url_prefix='/enterprise')
@@ -35,9 +36,22 @@ def get_all_relationship():
 
 @app.route('/getPersonalRelationship', methods=['GET', 'POST'])
 def get_personal_relationship():
-    email = request.form.get('email')
+    email = request.values.get('email')
+    print(email)
     return Relation.get_personal_relationship(email)
 
+
+@app.route('/getAllKeyword', methods=['GET', 'POST'])
+def get_all_keyword():
+    return Keyword.all_mail()
+
+
+@app.route('/getKeywordByDate', methods=['GET', 'POST'])
+def get_keyword_date():
+    datetime = request.form.get('datetime')
+    print(datetime)
+    return Keyword.all_mail()
+    # return Keyword.mail_by_date(datetime)
 
 
 if __name__ == '__main__':

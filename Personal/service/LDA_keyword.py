@@ -1,11 +1,11 @@
 import re
 
-import json
 import gensim
 from gensim import corpora
 import Personal.dao.db_connector as db
 from _datetime import datetime
 from flask import jsonify
+
 
 def clean_str(string):
     string = re.sub(r"[^\u4e00-\u9fff]", " ", string)
@@ -13,13 +13,16 @@ def clean_str(string):
     string = ' '.join(filter(lambda x: x, string.split(' ')))
     return string.strip()
 
+
 def all_mail():
     emails = db.get_all_email()
     return LDA(emails)
 
+
 def mail_by_date(et:datetime,ct:datetime):
     emails = db.get_mail_by_date(et,ct)
     return LDA(emails)
+
 
 def LDA(doc_list):
     # 2.形成标准gensim语料
@@ -55,11 +58,13 @@ def LDA(doc_list):
                 if j[0]==d[0] and d[1]>=0.6:
                     #print(str(i)+'属于的主题：'+str(j[0])+'主题概率：'+str(d[1])+'\n')
                     result[j[0]].append([doc_list[i][0],d[1]])
-    return json.dumps(result)
+    return jsonify({'result': result})
+
 
 def main():
     doc_list = all_mail()  # 形成邮件列表
     LDA(doc_list)  # 主题分类
+
 
 if __name__ == '__main__':
     main()

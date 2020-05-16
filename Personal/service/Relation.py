@@ -81,6 +81,7 @@ def get_personal_relationship(mail:str):
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
     data = [{'node':node_list,'link':link}]
+    print(node_list)
     return jsonify({'node': node_list, 'link': link})
 
 
