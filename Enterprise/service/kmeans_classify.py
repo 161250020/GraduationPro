@@ -30,7 +30,7 @@ class KmeansClassify:
                 dunn_index.append(dunn)
                 # 判断dunn index的变化是否是剧烈的
                 if len(dunn_index) >= 2:
-                    if dunn_index[- 1] / dunn_index[- 2] >= 0.99:  # 包括[...,a,b]：b/a>=0.9以及b>a的情况
+                    if dunn_index[- 1] / dunn_index[- 2] >= 0.99:  # 包括[...,a,b]：b/a>=0.99以及b>a的情况
                         finish2 = True
                         fin_k = cur_k
 
