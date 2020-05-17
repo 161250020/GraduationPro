@@ -35,25 +35,25 @@ def LDA(doc_list):
 
     list_ = []
     for i in range(0,5):
-        list_.append(lda.show_topic(i,topn=5))
+        list_.append(lda.show_topic(i,topn=30))
     #    print('topic = ' + str(i+1) + '  ' + lda.print_topic(i, topn=5))  # 主题i的常用的topn个词
     #    print('----------------------------------------------')
-        print("topic", i)
-        for keyword in list_[i]:
-            print("    ",keyword[0], "  ",keyword[1])
-    new_vec = []
-    result = []
-    temp = []
-    for i in range(0, 5):
-        result.append(temp)
-    for email, i in doc_list:
-        new_vec.append(dictionary.doc2bow(str(i).split(' ')))
-    for j in lda.print_topics(num_topics=5, num_words=10):
-        for i, n in enumerate(new_vec):
-            for d in lda[n]:
-                if j[0]==d[0] and d[1]>=0.6:
-                    #print(str(i)+'属于的主题：'+str(j[0])+'主题概率：'+str(d[1])+'\n')
-                    result[j[0]].append([doc_list[i][0], d[1]])
+    #    print("topic", i)
+    #    for keyword in list_[i]:
+    #        print("    ",keyword[0], "  ",keyword[1])
+    #new_vec = []
+    #result = []
+    #temp = []
+    #for i in range(0, 5):
+    #    result.append(temp)
+    #for email, i in doc_list:
+    #    new_vec.append(dictionary.doc2bow(str(i).split(' ')))
+    #for j in lda.print_topics(num_topics=5, num_words=10):
+    #    for i, n in enumerate(new_vec):
+    #        for d in lda[n]:
+    #            if j[0]==d[0] and d[1]>=0.6:
+    #                #print(str(i)+'属于的主题：'+str(j[0])+'主题概率：'+str(d[1])+'\n')
+    #                result[j[0]].append([doc_list[i][0], d[1]])
     data = {}
     temp = []
     for i in range(0,5):
@@ -63,7 +63,7 @@ def LDA(doc_list):
             temp[1]=float(temp[1])
             temp_.append(temp)
         print(temp_)
-        data['theme'+str(i)] = temp_[i]
+        data['theme'+str(i)] = temp_
     return json.dumps(data)
 
 def main():
