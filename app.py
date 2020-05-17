@@ -5,6 +5,7 @@ from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
 from Personal.service import Relation
 from Personal.service import LDA_keyword as Keyword
+from Personal.dao import db_connector as db
 
 app = Flask(__name__)  # 确定APP的启动路径
 app.register_blueprint(category, url_prefix='/category')
@@ -29,6 +30,11 @@ def showChart():
 def Try():
     userID = request.form.get('id')
     return 'Nie Wentao'
+
+
+@app.route('/getMail', methods=['GET', 'POST'])
+def get_mail():
+    return db.get_email_list_in_json()
 
 
 @app.route('/getAllRelationship', methods=['GET', 'POST'])

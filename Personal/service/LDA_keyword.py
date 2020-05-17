@@ -42,9 +42,9 @@ def LDA(doc_list):
         list_.append(lda.show_topic(i,topn=5))
     #    print('topic = ' + str(i+1) + '  ' + lda.print_topic(i, topn=5))  # 主题i的常用的topn个词
     #    print('----------------------------------------------')
-        print("topic", i)
-        for keyword in list_[i]:
-            print("    ",keyword[0], "  ",keyword[1])
+    #     print("topic", i)
+    #     for keyword in list_[i]:
+    #         print("    ",keyword[0], "  ",keyword[1])
     new_vec = []
     result = []
     temp = []
@@ -66,8 +66,9 @@ def LDA(doc_list):
             temp = list(x)
             temp[1]=float(temp[1])
             temp_.append(temp)
-        print(temp_)
+        # print(temp_)
         data['theme'+str(i)] = temp_[i]
+    print(json.dumps(data))
     return json.dumps(data)
 
 def main():
