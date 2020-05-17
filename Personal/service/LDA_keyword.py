@@ -58,7 +58,8 @@ def LDA(doc_list):
                 if j[0]==d[0] and d[1]>=0.6:
                     #print(str(i)+'属于的主题：'+str(j[0])+'主题概率：'+str(d[1])+'\n')
                     result[j[0]].append([doc_list[i][0],d[1]])
-    return jsonify({'result': result})
+    print(result)
+    return jsonify({'result': ''})
 
 
 def main():
