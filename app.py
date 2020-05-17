@@ -1,14 +1,16 @@
 from flask import Flask, render_template, jsonify, request
-from Enterprise.controller.classify_and_relationship import enterprise
+from Enterprise.controller.category import category
+from Enterprise.controller.relationship import relationship
 from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
 from Personal.service import Relation
 from Personal.service import LDA_keyword as Keyword
 
-app = Flask(__name__) # 确定APP的启动路径
-app.register_blueprint(enterprise,url_prefix='/enterprise')
-app.register_blueprint(topics_con,url_prefix='/topic')
-app.register_blueprint(summary_con,url_prefix='/summary')
+app = Flask(__name__)  # 确定APP的启动路径
+app.register_blueprint(category, url_prefix='/category')
+app.register_blueprint(relationship, url_prefix='/relationship')
+app.register_blueprint(topics_con, url_prefix='/topic')
+app.register_blueprint(summary_con, url_prefix='/summary')
 
 
 @app.route('/')
@@ -55,4 +57,4 @@ def get_keyword_date():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=80) # 127.0.0.1:回路，自己访问自己
+    app.run(debug=True, port=80)  # 127.0.0.1:回路，自己访问自己
