@@ -5,6 +5,9 @@ from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
 from Personal.service import Relation
 from Personal.service import LDA_keyword as Keyword
+from Enterprise.controller import category as Category
+from Enterprise.controller import topics as Topic
+from Enterprise.controller import summary_and_keywords as Doc
 from Personal.dao import db_connector as db
 
 app = Flask(__name__)  # 确定APP的启动路径
@@ -45,7 +48,6 @@ def get_all_relationship():
 @app.route('/getPersonalRelationship', methods=['GET', 'POST'])
 def get_personal_relationship():
     email = request.values.get('email')
-    print(email)
     return Relation.get_personal_relationship(email)
 
 
@@ -56,10 +58,26 @@ def get_all_keyword():
 
 @app.route('/getKeywordByDate', methods=['GET', 'POST'])
 def get_keyword_date():
-    datetime = request.form.get('datetime')
-    print(datetime)
+    startTime = request.form.get('startTime')
+    endTime = request.form.get('endTime')
+    print(startTime, endTime)
     return Keyword.all_mail()
     # return Keyword.mail_by_date(datetime)
+
+
+@app.route('/getCategory', methods=['GET', 'POST'])
+def get_category():
+    return Category.choose()
+
+
+@app.route('/getTopic', methods=['GET', 'POST'])
+def get_topic():
+    return Topic.topics()
+
+
+@app.route('/getDoc', methods=['GET', 'POST'])
+def get_doc():
+    return Doc.docs()
 
 
 if __name__ == '__main__':

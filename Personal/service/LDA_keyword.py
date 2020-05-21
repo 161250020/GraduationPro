@@ -39,7 +39,7 @@ def LDA(doc_list):
 
     list_ = []
     for i in range(0,5):
-        list_.append(lda.show_topic(i,topn=30))
+        list_.append(lda.show_topic(i,topn=40))
     #    print('topic = ' + str(i+1) + '  ' + lda.print_topic(i, topn=5))  # 主题i的常用的topn个词
     #    print('----------------------------------------------')
     #    print("topic", i)
@@ -68,6 +68,7 @@ def LDA(doc_list):
             temp_.append(temp)
         print(temp_)
         data['theme'+str(i)] = temp_
+    print(json.dumps(data))
     return json.dumps(data)
 
 def main():
