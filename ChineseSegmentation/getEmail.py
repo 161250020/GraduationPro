@@ -75,6 +75,7 @@ def get_emails(db):
             msg = email.message_from_string(text)
             title, addresser, addressee, copy = pe.parse_header(msg)
             date = get_date(text)
+            print(date)
             content = get_content(text)
             doc = re.split('。|；|·|！|？|\n', content)
             doc = list(filter(None, doc))

@@ -1,4 +1,5 @@
 import re
+import json
 import pymongo
 from _datetime import datetime
 from Personal.model.Email import Mail
@@ -13,8 +14,8 @@ def clean_str(string):
 def get_mycol():
     myclient = pymongo.MongoClient('mongodb://localhost:27017')
 
-    mydb = myclient["admin"]
-    mycol = mydb["mail"]
+    mydb = myclient["email"]
+    mycol = mydb["000"]
     return mycol
 
 def get_mail_by_user(user:str):
@@ -45,6 +46,20 @@ def get_all_email():
     emails = trans(mails)
     return emails
 
+def get_email_list():
+    mycol = get_mycol()
+    dic = {}
+    result = []
+    for i in mycol.find({}, {'_id': 1, 'title': 1, 'from': 1, 'to': 1, 'cc': 1, 'date': 1, 'doc': 1, 'split': 1, 'emailKind': 1}):
+        dic[i['from']] = 1
+    for val in dic.keys():
+        result.append(val)
+    return result
+
+
+def get_email_list_in_json():
+    return json.dumps(get_email_list())
+
 def trans(mails):
     emails = []
     for mail in mails:
@@ -57,6 +72,7 @@ def trans(mails):
         if not email.isspace():
             emails.append([mail, email])
     return emails
+
 
 
 

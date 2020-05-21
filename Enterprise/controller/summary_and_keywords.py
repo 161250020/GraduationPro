@@ -9,8 +9,8 @@ summary_con = Blueprint('summary', __name__)
 
 @summary_con.route('/')
 def docs():
-    cate = request.form.get('category')
-    topic = request.form.get('topic')
+    cate = request.values.get('category')[2:]
+    topic = request.values.get('topic')[2:]
 
     # 计算文章的关键词（存特征值的index）
     # 取该文章词类型数量的根号作为关键词数量
@@ -34,4 +34,5 @@ def docs():
             "abstract": Glo.summary[i],
             "docs": Glo.doc_list[i]
         })
+    print(ret_data)
     return jsonify(ret_data)

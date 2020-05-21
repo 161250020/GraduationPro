@@ -18,5 +18,5 @@ def choose():
     show = sorted(show.items(), key=lambda x: x[0])
     ret_data = []
     for cate_info in show:
-        ret_data.append({"category": '类别'+cate_info[0], "number": cate_info[1]})
+        ret_data.append({"category": '类别'+str(cate_info[0]), "number": cate_info[1]})
     return jsonify(ret_data)
