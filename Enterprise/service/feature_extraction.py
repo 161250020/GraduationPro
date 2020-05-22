@@ -6,7 +6,7 @@ class FeatureExtraction:
 
     @staticmethod
     def feature_extraction(file_list):
-        vectorizer = CountVectorizer(min_df=2)  # 将文本中的词转换成词频矩阵，至少出现两次的来生成文本表示向量
+        vectorizer = CountVectorizer()  # 将文本中的词转换成词频矩阵
         transformer = TfidfTransformer()  # 统计每个词语的TF-IDF权值
         X = vectorizer.fit_transform(file_list)
         tfidf = transformer.fit_transform(X)

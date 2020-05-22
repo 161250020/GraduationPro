@@ -3,6 +3,7 @@ from Enterprise.controller.category import category
 from Enterprise.controller.relationship import relationship
 from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
+from userLogin.controller.login import userLogin
 from Personal.service import Relation
 from Personal.service import LDA_keyword as Keyword
 from Enterprise.controller import category as Category
@@ -15,6 +16,7 @@ app.register_blueprint(category, url_prefix='/category')
 app.register_blueprint(relationship, url_prefix='/relationship')
 app.register_blueprint(topics_con, url_prefix='/topic')
 app.register_blueprint(summary_con, url_prefix='/summary')
+app.register_blueprint(userLogin, url_prefix='/userLogin')
 
 
 @app.route('/')
