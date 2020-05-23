@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-from flask import render_template
 from Enterprise.model.glo import Glo
 from Enterprise.service.interpersonal_network import InterpersonalNetwork
 

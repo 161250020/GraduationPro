@@ -38,7 +38,7 @@ class TopicsAnalyse:
                 tmp2.append([])
                 tmp.append(tmp2)
 
-            # 主题-文档分布
+            # 文档-主题分布
             for j in range(len(corpus)):
                 topic_index = TopicsAnalyse.cal_topic_doc(lda, corpus, j)
                 tmp2 = tmp[topic_index][2]
