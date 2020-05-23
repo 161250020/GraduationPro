@@ -30,4 +30,5 @@ def choose():
             "symbolSize": tmp_count
         })
     ret_data = {"node": node, "link": link}
+    print(ret_data)
     return jsonify(ret_data)

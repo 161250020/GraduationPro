@@ -3,11 +3,12 @@ from Enterprise.controller.category import category
 from Enterprise.controller.relationship import relationship
 from Enterprise.controller.topics import topics_con
 from Enterprise.controller.summary_and_keywords import summary_con
-from Personal.service import Relation
+from Personal.service import Relation as PersonalRelation
 from Personal.service import LDA_keyword as Keyword
 from Enterprise.controller import category as Category
 from Enterprise.controller import topics as Topic
 from Enterprise.controller import summary_and_keywords as Doc
+from Enterprise.controller import relationship as EnterpriseRelation
 from Personal.dao import db_connector as db
 
 app = Flask(__name__)  # 确定APP的启动路径
@@ -42,13 +43,13 @@ def get_mail():
 
 @app.route('/getAllRelationship', methods=['GET', 'POST'])
 def get_all_relationship():
-    return Relation.get_all_realtionship()
+    return PersonalRelation.get_all_realtionship()
 
 
 @app.route('/getPersonalRelationship', methods=['GET', 'POST'])
 def get_personal_relationship():
     email = request.values.get('email')
-    return Relation.get_personal_relationship(email)
+    return PersonalRelation.get_personal_relationship(email)
 
 
 @app.route('/getAllKeyword', methods=['GET', 'POST'])
@@ -78,6 +79,11 @@ def get_topic():
 @app.route('/getDoc', methods=['GET', 'POST'])
 def get_doc():
     return Doc.docs()
+
+
+@app.route('/getEnterpriseRelationship', methods=['GET', 'POST'])
+def get_enterprise_relationship():
+    return EnterpriseRelation.choose()
 
 
 if __name__ == '__main__':

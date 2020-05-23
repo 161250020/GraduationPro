@@ -34,5 +34,5 @@ def docs():
             "abstract": Glo.summary[i],
             "docs": Glo.doc_list[i]
         })
-    print(ret_data)
+    # print(ret_data)
     return jsonify(ret_data)
