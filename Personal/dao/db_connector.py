@@ -13,7 +13,6 @@ def clean_str(string):
 
 def get_mycol():
     myclient = pymongo.MongoClient('mongodb://localhost:27017')
-
     mydb = myclient["emails"]
     mycol = mydb["emailsDetail"]
     return mycol
