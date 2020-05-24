@@ -14,11 +14,13 @@ def docs():
 
     # 计算文章的关键词（存特征值的index）
     # 取该文章词类型数量的根号作为关键词数量
-    KeyWords.cal_doc_keywords(Glo.weight, Glo.word, Glo.doc_keywords)
+    if len(Glo.doc_keywords) == 0:
+        KeyWords.cal_doc_keywords(Glo.weight, Glo.word, Glo.doc_keywords)
     print("doc_keyWords:", np.asarray(Glo.doc_keywords))
 
     # 对文章进行摘要
-    DocSummary.get_summary(Glo.doc_keywords, Glo.splits, Glo.doc, Glo.summary)
+    if len(Glo.summary) == 0:
+        DocSummary.get_summary(Glo.doc_keywords, Glo.splits, Glo.doc, Glo.summary)
     print("summary:", Glo.summary)
 
     # 进行响应值的计算
