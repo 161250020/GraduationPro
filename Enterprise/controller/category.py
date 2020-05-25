@@ -13,6 +13,7 @@ def choose():
     Glo.word, Glo.weight = FeatureExtraction.feature_extraction(Glo.file_list)
     if len(Glo.cluster) == 0:
         KmeansClassify.classify(Glo.file_list, Glo.weight, Glo.cluster)
+
     show = {}
     for clu in Glo.cluster.items():
         show[clu[0]] = len(clu[1])
