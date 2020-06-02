@@ -18,8 +18,13 @@ class TestKmeansClassify(unittest.TestCase):
         word, weight = FeatureExtraction.feature_extraction(file_list)
         cluster = {}
         KmeansClassify.classify(file_list, weight, cluster)
-        self.assertIn(len(cluster.keys()), [2, 3])  # 仅测试分类的数量，因为k-means初始化的中心点不确定，无法确定每次聚类的文档分配
-        print(cluster)
+        self.assertEqual(len(cluster.keys()), 2)
+        if 0 in cluster[0]:
+            self.assertEqual(cluster[0], [0, 1, 4, 5, 8])
+            self.assertEqual(cluster[1], [2, 3, 6, 7, 9])
+        else:
+            self.assertEqual(cluster[0], [2, 3, 6, 7, 9])
+            self.assertEqual(cluster[1], [0, 1, 4, 5, 8])
 
 
 if __name__ == '__main__':

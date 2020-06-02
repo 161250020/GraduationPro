@@ -60,12 +60,12 @@ class TopicsAnalyse:
                     TopicsAnalyse.__perplexity(tmp_lda, corpus, dictionary, len(dictionary.keys()), n_topics))
 
                 # 判断是否为该主题个数：
-                # 两次计算困惑度比值：后/前>=0.99 或 后>=前 时结束
+                # 两次计算困惑度比值：后/前>=0.95 或 后>=前 时结束
                 if len(perplexity_list) >= 2:
                     if perplexity_list[-1] >= perplexity_list[-2]:
                         n_topics -= 1
                         break
-                    if (perplexity_list[-1] / perplexity_list[-2]) >= 0.99:
+                    if (perplexity_list[-1] / perplexity_list[-2]) >= 0.95:
                         break
         print("perplexity list:", perplexity_list)
         return n_topics

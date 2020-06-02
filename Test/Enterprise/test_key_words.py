@@ -19,7 +19,9 @@ class TestTopic(unittest.TestCase):
         word, weight = FeatureExtraction.feature_extraction(file_list)
         doc_keywords = []
         KeyWords.cal_doc_keywords(weight, word, doc_keywords)
-        print(doc_keywords)
+        self.assertEqual(doc_keywords,
+                         [['年货', '联欢晚会'], ['节目单', '红火'], ['大盘', '散户'], ['赚钱'], ['金猴', '红火'], ['新车', '年货'], ['反弹'],
+                          ['赚钱'], ['春节'], ['散户']])
 
 
 if __name__ == '__main__':

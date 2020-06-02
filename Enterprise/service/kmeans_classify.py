@@ -40,7 +40,7 @@ class KmeansClassify:
             else:
                 fin_k = int(math.sqrt(len(file_list)))
                 break
-        fin_k = min(fin_k, int(math.sqrt(len(file_list))))
+        fin_k = min(fin_k - 1, int(math.sqrt(len(file_list))))
         return fin_k
 
     @staticmethod
