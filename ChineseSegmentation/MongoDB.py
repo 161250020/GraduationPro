@@ -13,7 +13,7 @@ def disconnect_mongodb(client):
 
 # 选择email数据库
 def choose_database(client):
-    return client.email
+    return client.emails
 
 
 # 连接email中用户对应的数据表
