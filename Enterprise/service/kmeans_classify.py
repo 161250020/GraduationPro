@@ -40,7 +40,7 @@ class KmeansClassify:
             else:
                 fin_k = int(math.sqrt(len(file_list)))
                 break
-        fin_k = min(fin_k, int(math.sqrt(len(file_list))))
+        fin_k = min(fin_k - 1, int(math.sqrt(len(file_list))))
         return fin_k
 
     @staticmethod
@@ -85,10 +85,10 @@ class KmeansClassify:
 
     @staticmethod
     def classify(file_list, weight, cluster):
-        """使用合适的簇数量进行kmeans的计算"""
+        # 使用合适的簇数量进行k-means的计算
         fin_k = KmeansClassify.__fin_k(file_list, weight)
-        print("fin_k--------------------------:", fin_k)
-        fin_kmeans = KMeans(n_clusters=fin_k, init='k-means++')  # 使用K-means++来初始化质心，指定初始化过程
+        # 使用K-means++来初始化质心，指定初始化过程
+        fin_kmeans = KMeans(n_clusters=fin_k, init='k-means++')
         fin_kmeans.fit(weight)
         i = 0
         while i < len(file_list):

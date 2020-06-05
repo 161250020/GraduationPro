@@ -1,5 +1,6 @@
 import math
 import gensim
+import numpy as np
 from gensim import corpora
 
 
@@ -60,12 +61,12 @@ class TopicsAnalyse:
                     TopicsAnalyse.__perplexity(tmp_lda, corpus, dictionary, len(dictionary.keys()), n_topics))
 
                 # 判断是否为该主题个数：
-                # 两次计算困惑度比值：后/前>=0.99 或 后>=前 时结束
+                # 两次计算困惑度比值：后/前>=0.95 或 后>=前 时结束
                 if len(perplexity_list) >= 2:
                     if perplexity_list[-1] >= perplexity_list[-2]:
                         n_topics -= 1
                         break
-                    if (perplexity_list[-1] / perplexity_list[-2]) >= 0.99:
+                    if (perplexity_list[-1] / perplexity_list[-2]) >= 0.95:
                         break
         print("perplexity list:", perplexity_list)
         return n_topics
@@ -73,11 +74,13 @@ class TopicsAnalyse:
     @staticmethod
     def cal_topic_keyword(lda, i):
         show_topics = lda.show_topic(i, topn=5)
+        print("主题" + str(i) + "的主题-词语概率分布：\n", np.asarray(lda.show_topic(i)))
         return [w[0] for w in show_topics]
 
     @staticmethod
     def cal_topic_doc(lda, corpus, j):
         topic_indexs = lda.get_document_topics(corpus[j])
+        print("文档" + str(j) + "的文档-主题概率分布：\n", lda.get_document_topics(corpus[j]))
         topic_indexs_max_pro_index = 0
         for index in range(1, len(topic_indexs)):
             if topic_indexs[index][1] > topic_indexs[topic_indexs_max_pro_index][1]:

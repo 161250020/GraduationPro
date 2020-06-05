@@ -41,7 +41,7 @@ class DocSummary:
                     cluster_len = threshold_value + 2  # 簇的长度
                     last_key_word = False
                     # 往后数门槛值+1个词
-                    if (len(split_words) > (threshold_value + 2)):
+                    if len(split_words) > (threshold_value + 2):
                         tmp_split_words = split_words[k + 1:k + 2 + threshold_value]
                     else:
                         tmp_split_words = split_words[k + 1:]
