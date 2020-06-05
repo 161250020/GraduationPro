@@ -22,6 +22,10 @@ def choose_user(db, username):
     return user
 
 
+def choose_collection(db):
+    return db['emailDetails']
+
+
 # 插入一条数据
 def insert_one(user, email):
     user.insert_one(email)

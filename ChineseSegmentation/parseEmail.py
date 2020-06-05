@@ -4,6 +4,26 @@ from email.header import decode_header
 from ChineseSegmentation import JB, myEmail, FileController as fc, MongoDB
 import os
 import chardet
+import re
+from _datetime import datetime
+
+
+def get_date(text):
+    date = ""
+    pos = text.find("Date")
+    existTime = True
+    for line in text[pos:].splitlines(keepends=True):
+        r1 = "\s+"
+        line = re.sub(r1, " ", line)
+        line = line.replace("\n", "")
+        date += line
+        break
+    if existTime:
+        date = date[6:]
+    if pos != -1:
+        return datetime.strptime(date[5:24], '%d %b %Y %H:%M:%S')
+    else:
+        return None
 
 
 def decode_str(self, s):
@@ -91,14 +111,14 @@ def parse_body(message):
                     print(charset)
                     # charset = "utf-8"
                     if charset:
-                        content = content.decode(charset).encode("utf-8")
+                        content = content.decode(charset)
                         # print("This is a text:", content)
                     return content
                 else:
                     print("This is a html:", content_type)
                     html = part.get_payload(decode=True)
                     coding = chardet.detect(html)["encoding"]
-                    print(html.decode("gbk", errors="ignore"))
+                    # print(html.decode("gbk", errors="ignore"))
 
 
 # 获取邮件
@@ -115,16 +135,28 @@ def get_mail(host, username, password, port=993):  # 端口自行选择空闲端
     # 邮件列表，使用空格分割得到邮件索引
     msgList = data[0].split()
     # 最新邮件，第0封邮件为最早的一封邮件
-    latest = msgList[len(msgList) - 1]
-    type, datas = service.fetch(latest, '(RFC822)')
-    text = datas[0][1].decode("utf8")
-    message = email.message_from_string(text)
-    # print(message)
-    title, addresser, addressee, copy = parse_header(message)
-    content = parse_body(message)
+    new_emails = []
+    for i in range(1, 3):
+        latest = msgList[len(msgList) - 3 + i]
+        type, datas = service.fetch(latest, '(RFC822)')
+        text = datas[0][1].decode("utf8")
+        message = email.message_from_string(text)
+        # print(message)
+        title, addresser, addressee, copy = parse_header(message)
+        date = get_date(text)
+        content = parse_body(message)
+        doc = re.split('。|；|·|！|？|\n', content)
+        doc = list(filter(None, doc))
+        split = []
+        for j in range(len(doc)):
+            split.append(JB.participle_text(doc[j]))
+            doc[j] = doc[j] + "。"
+        emailKind = ""
+        new_email = myEmail.set_email(title, addresser, addressee, copy, date, doc, split, emailKind)
+        new_emails.append(new_email)
     service.close()
     service.logout()
-    return title, addresser, addressee, copy, content
+    return new_emails
 
 
 # 读取中文邮件集
@@ -137,7 +169,7 @@ def get_emails(db):
         new_emails = []
         for e in emails:
             email_path = path + "/" + dir + "/" + e
-            print(email_path)
+            # print(email_path)
             text = fc.get_text(email_path)
             msg = email.message_from_string(text)
             title, addresser, addressee, copy = parse_header(msg)
@@ -148,17 +180,18 @@ def get_emails(db):
 
         # mongodb.insert_many(user, new_emails)
 
-# # 连接邮箱
-# host = "imap.qq.com"
-# username = "1351446867@qq.com"
-# password = "vyrfplitjeuohgji"
-# title, addresser, addressee, copy, content = get_mail(host, username, password)
-# # 中文分词
-# content = JB.participle_text(content)
-# # 添加至MongoDB数据库
-# new_email = myEmail.set_email(title, addresser, addressee, copy, content)
-# myClient = mongodb.connect_mongodb()
-# emaildb = mongodb.choose_database(myClient)
-# user = mongodb.choose_user(emaildb, "demo")
-# mongodb.insert_one(user, new_email)
-# mongodb.disconnect_mongodb(myClient)
+
+def get_emails():
+    host = "imap.qq.com"
+    username = "1351446867@qq.com"
+    password = "gjrmoldmgyufjcbf"
+    emails = get_mail(host, username, password)
+    myClient = MongoDB.connect_mongodb()
+    emaildb = MongoDB.choose_database(myClient)
+    user = MongoDB.choose_user(emaildb, username)
+    MongoDB.insert_many(user, emails)
+    return len(emails)
+
+
+if __name__ == '__main__':
+    print(get_emails())

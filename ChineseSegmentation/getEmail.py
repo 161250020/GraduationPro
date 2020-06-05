@@ -4,6 +4,7 @@ from ChineseSegmentation import JB, parseEmail as pe, myEmail, FileController as
 import re
 from _datetime import datetime
 import sys
+import time
 
 def get_content(email_text):
     email_content = ""
@@ -61,9 +62,10 @@ def get_emails(db):
     dirs = os.listdir(path)
     new_emails = []
     i = 0
+    email_number = 0
     for dir in dirs:
         new_emails.clear()
-        user = MongoDB.choose_user(db, dir)
+        user = MongoDB.choose_collection(db)
         emails = os.listdir(path + "/" + dir)
         j = 0
         for e in emails:
@@ -75,7 +77,6 @@ def get_emails(db):
             msg = email.message_from_string(text)
             title, addresser, addressee, copy = pe.parse_header(msg)
             date = get_date(text)
-            print(date)
             content = get_content(text)
             doc = re.split('。|；|·|！|？|\n', content)
             doc = list(filter(None, doc))
@@ -87,12 +88,22 @@ def get_emails(db):
             emailKind = ""
             new_email = myEmail.set_email(title, addresser, addressee, copy, date, doc, split, emailKind)
             new_emails.append(new_email)
+            email_number += 1
         i = i + 1
         MongoDB.insert_many(user, new_emails)
+    return email_number
+
+
+def get_local_emails():
+    myClient = MongoDB.connect_mongodb()
+    emaildb = MongoDB.choose_database(myClient)
+    time_start = time.time()
+    emails_number = get_emails(emaildb)
+    time_end = time.time()
+    MongoDB.disconnect_mongodb(myClient)
+    print("总计用时:", time_end-time_start, "秒")
+    return emails_number
 
 
 if __name__ == '__main__':
-    myClient = MongoDB.connect_mongodb()
-    emaildb = MongoDB.choose_database(myClient)
-    get_emails(emaildb)
-    MongoDB.disconnect_mongodb(myClient)
+    print("总计邮件数量", get_local_emails(), "封")

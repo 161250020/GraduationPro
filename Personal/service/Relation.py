@@ -48,20 +48,20 @@ def get_personal_relationship(mail:str):
     temp_node_list = {}
     node_list = []
     for x in mycol.find({"from": mail}, {"_id": 0, "to": 1}):
-        print(x)
+        #print(x)
         if x["to"] not in to_dict:
             to_dict[x["to"]] = 1
         else:
             to_dict[x["to"]] += 1
 
     for x in mycol.find({"to": mail}, {"_id": 0, "from": 1}):
-        print(x)
+        #print(x)
         if x["from"] not in to_dict:
             to_dict[x["from"]] = 1
         else:
             to_dict[x["from"]] += 1
-    print(to_dict)
-    print(from_dict)
+    #print(to_dict)
+    #print(from_dict)
     for key,val in from_dict.items():
         if key!=mail:
             link.append({"source": key, "target":mail, "weight":val})
@@ -80,9 +80,9 @@ def get_personal_relationship(mail:str):
 
     for key,val in temp_node_list.items():
         node_list.append({"name": key, "symbolSize": val*5})
-    data = [{'node':node_list,'link':link}]
-    print(node_list)
-    return jsonify({'node': node_list, 'link': link})
+    data = {'node':node_list,'link':link}
+    print(data)
+    return jsonify(data)
 
 
 def main():

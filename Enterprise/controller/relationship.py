@@ -16,7 +16,6 @@ def choose():
     node = []  # node的值要乘以5，以免太小了显示不出来
     link = []
     outDegree = interpersonal_network.outDegree  # 由于不显示有向图，进这个属性就足够了
-    print(outDegree)
     for from_email in outDegree.keys():
         to_emails = outDegree[from_email]
         tmp_count = 0
@@ -33,4 +32,4 @@ def choose():
         })
     ret_data = {"node": node, "link": link}
     print(ret_data)
-    return jsonify(ret_data)
+    return jsonify({"node": node, "link": link})
