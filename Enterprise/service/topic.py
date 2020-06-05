@@ -1,5 +1,6 @@
 import math
 import gensim
+import numpy as np
 from gensim import corpora
 
 
@@ -73,11 +74,13 @@ class TopicsAnalyse:
     @staticmethod
     def cal_topic_keyword(lda, i):
         show_topics = lda.show_topic(i, topn=5)
+        print("主题" + str(i) + "的主题-词语概率分布：\n", np.asarray(lda.show_topic(i)))
         return [w[0] for w in show_topics]
 
     @staticmethod
     def cal_topic_doc(lda, corpus, j):
         topic_indexs = lda.get_document_topics(corpus[j])
+        print("文档" + str(j) + "的文档-主题概率分布：\n", lda.get_document_topics(corpus[j]))
         topic_indexs_max_pro_index = 0
         for index in range(1, len(topic_indexs)):
             if topic_indexs[index][1] > topic_indexs[topic_indexs_max_pro_index][1]:

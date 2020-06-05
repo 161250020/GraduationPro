@@ -16,7 +16,6 @@ class TestTopic(unittest.TestCase):
                      '新年 看 春节 联欢晚会',
                      '大盘 下跌 散户 散户']
         cluster = {0: [0, 1, 4, 5, 8], 1: [2, 3, 6, 7, 9]}
-
         cluster_topics = {}
         TopicsAnalyse.cal_lda(cluster, file_list, cluster_topics)
         print(cluster_topics)

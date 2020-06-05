@@ -1,29 +1,18 @@
-import sys
+import numpy as np
 
-def fact(n):
-    """
-    阶乘函数
+def cal_doc_keywords(weight, word, doc_keywords):
+    for i in range(len(weight)):
+        list_word = weight[i]
 
-    :arg n: 数字
-    :returns: n 的阶乘
+        # 关键词数量
+        word_clu_num = 0
+        ...
 
-    """
-    if n == 0:
-        return 1
-    return n * fact(n -1)
-
-def div(n):
-    """
-    只是做除法
-    """
-    res = 10 / n
-    return res
+        # 获取关键词：top n 的words
+        distIndexArr = np.argsort(weight[i])
+        topN_index = distIndexArr[:-(word_clu_num + 1):-1]  # top n 的indexs
+        topN_words = np.asarray(word)[topN_index]  # top n 的words
+        topN_words2 = [l for l in topN_words]
+        doc_keywords.append(topN_words2)
 
 
-def main(n):
-    res = fact(n)
-    print(res)
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        main(int(sys.argv[1]))
